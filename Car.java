@@ -5,10 +5,10 @@ public class Car {
     private int year;
     private String Color;
     private int price;
-    private int reg_numder;
+    private String reg_numder;
 
     // Constructor
-    public Car(int id, String mark, String model, int year, String Color, int price, int reg_numder) {
+    public Car(int id, String mark, String model, int year, String Color, int price, String reg_numder) {
         this.id = id;
         this.mark = mark;
         this.model = model;
@@ -79,11 +79,11 @@ public class Car {
     }
 
     // reg_numder
-    public int getRegNumber() {
+    public String getRegNumber() {
         return reg_numder;
     }
-    public void setRegNumber(int reg_numder) {
-        if (reg_numder >= 0) {
+    public void setRegNumber(String reg_numder) {
+        if (reg_numder != null) {
             this.reg_numder = reg_numder;
         }
     }
