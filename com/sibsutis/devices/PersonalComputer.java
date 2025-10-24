@@ -6,6 +6,7 @@ public class PersonalComputer extends com.sibsutis.devices.Device {
     // Constructors
     public PersonalComputer(int id, int price) {
         super(id, price, null);
+        // super для инициализации из род. класса
     }
 
     public PersonalComputer(int id, int price, String ip) {
