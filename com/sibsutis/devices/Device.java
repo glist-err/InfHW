@@ -31,5 +31,5 @@ public abstract class Device implements com.sibsutis.Printable {
         return "ID: " + id + ", price: " + price + ", IP: " + ip;
     }
 
-    public abstract String getDevice();
+    public abstract String getDeviceType();
 }
