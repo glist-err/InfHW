@@ -13,4 +13,12 @@ public class Cache<T> {
         this.n = n;
         this.cache = new LinkedList<>();
     }
+    
+    public void add(T item) {
+        if (cache.size() >= n) {
+            cache.poll();   // удаление самого старого элемента
+        }
+
+        cache.offer(item);  // добавление нового элемента
+    }
 }
