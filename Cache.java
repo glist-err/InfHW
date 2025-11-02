@@ -40,4 +40,10 @@ public class Cache<T> {
     public T getItemByIndex(int i) {
         return (i >= 0 && i < cache.size()) ? cache.get(i) : null;
     }
+
+    // Override, чтобы нормально выводился. Иначе - Cache@279f2327
+    @Override
+    public String toString() {
+        return cache.toString();
+    }
 }
