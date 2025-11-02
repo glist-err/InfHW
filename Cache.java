@@ -28,4 +28,12 @@ public class Cache<T> {
     public boolean exist(T item) {
         return cache.contains(item);
     }
+
+    public T getFisrt() {
+        return cache.isEmpty() ? null : cache.getFirst();
+    }
+
+    public T getLast() {
+        return cache.isEmpty() ? null : cache.getLast();
+    }
 }
