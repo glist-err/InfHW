@@ -29,9 +29,9 @@ public class PersonalComputer extends com.sibsutis.devices.Device {
             return false;
         }
 
-        Device device = (Device) obj;
+        PersonalComputer device = (PersonalComputer) obj;
 
-        return id == device.id && price == device.price && Objects.equals(ip, device.ip);
+        return id == device.id;
     }
 
     @Override

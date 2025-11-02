@@ -27,7 +27,7 @@ public class Phone extends com.sibsutis.devices.Device {
 
         Device device = (Device) obj;
 
-        return id == device.id && price == device.price && Objects.equals(ip, device.ip);
+        return id == device.id;
     }
 
     @Override
