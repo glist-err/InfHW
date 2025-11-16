@@ -32,7 +32,7 @@ public class ClassicIOCacheWithLimit {
         this.cache = new HashMap<>();
         //this.cache = new ClassicIOCacheWithLimit(maxSize);
     }
-    // Методы
+    //                         Методы
     public String readFile(String filePath) throws IOException {
         File file = new File(filePath);
 
@@ -47,6 +47,7 @@ public class ClassicIOCacheWithLimit {
         FileCacheEntry cached = cache.get(absPath);
         
         if (cached != null && isCacheValid(cached, curModifiredTime)) {
+            cached.lastReadTime = System.currentTimeMillis();
             return cached.content;
         }
         else {
@@ -54,7 +55,7 @@ public class ClassicIOCacheWithLimit {
         }
     }
 
-    // вспомогательные методы
+    //                      вспомогательные методы
     private boolean isCacheValid(FileCacheEntry CachedEntry, long curModifiredTime) {
         return CachedEntry.lastModifiredTimeRead == curModifiredTime;
     }
@@ -68,10 +69,26 @@ public class ClassicIOCacheWithLimit {
 
         // не превышает ли размер кеша
         if (cache.size() > maxSize) {
-            //
+            removeOldest();
         }
 
         return content;
+    }
+    // для updateCache()
+    private void removeOldest() {
+        String oldest = null;
+        long oldTime = Long.MAX_VALUE;
+
+        for (var entry : cache.entrySet()) {
+            if (entry.getValue().lastReadTime < oldTime) {
+                oldTime = entry.getValue().lastReadTime;
+                oldest = entry.getKey();
+            }
+        }
+
+        if (oldest != null) {
+            cache.remove(oldest);
+        }
     }
 
     private String readFileContent(File file) throws IOException {
@@ -89,7 +106,7 @@ public class ClassicIOCacheWithLimit {
         return content.toString();
     }
 
-    // методы управления кешем
+    //                      методы управления кешем
     public void invalidate(String filePath) {
         String file = new File(filePath).getAbsolutePath();
         cache.remove(file);
@@ -107,5 +124,38 @@ public class ClassicIOCacheWithLimit {
 
     public int getCachedFilesCount() {
         return cache.size();
+    }
+
+    //                  Методы статистики
+    public long getCacheSizeInMemory() {
+        long total = 0;
+
+        for (FileCacheEntry entry : cache.values()) {
+            if (entry.content != null) {
+                total += entry.content.length() * (long)2;
+            }
+        }
+
+        return total;
+    }
+
+    public void printCacheStats() {
+        System.out.println("Cache stats:\n");
+
+        System.err.println("    Files:          " + cache.size() + "\n");
+        System.err.println("    Max size:       " + maxSize + "\n");
+        System.err.println("    Mem usage:      " + getCacheSizeInMemory() + "\n");
+
+        System.err.println("Files:\n");
+        for (Map.Entry<String, FileCacheEntry> entry : cache.entrySet()) {
+            String path = entry.getKey();
+            FileCacheEntry data = entry.getValue();
+            long sizeInMem = (data.content != null ? data.content.length() * (long)2 : 0);
+
+            System.err.println("    - " + path + "\n");
+            System.err.println("        Size: " + sizeInMem + "\n");
+            System.err.println("        Last read: " + data.lastReadTime + "\n");
+            System.err.println("        Last modifired: " + data.lastModifiredTimeRead + "\n");
+        }
     }
 }
