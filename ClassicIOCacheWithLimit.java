@@ -1,11 +1,8 @@
-import java.awt.image.CropImageFilter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.sun.jdi.AbsentInformationException;
 
 public class ClassicIOCacheWithLimit {
     private Map<String, FileCacheEntry> cache;
@@ -71,9 +68,24 @@ public class ClassicIOCacheWithLimit {
 
         // не превышает ли размер кеша
         if (cache.size() > maxSize) {
-            evictOldestFile();
+            //
         }
 
         return content;
+    }
+
+    private String readFileContent(File file) throws IOException {
+        StringBuilder content = new StringBuilder();
+
+        // FileReader и BufferedReader
+        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader(file))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+        }
+
+        return content.toString();
     }
 }
