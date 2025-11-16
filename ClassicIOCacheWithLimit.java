@@ -104,4 +104,8 @@ public class ClassicIOCacheWithLimit {
 
         return cache.containsKey(file);
     }
+
+    public int getCachedFilesCount() {
+        return cache.size();
+    }
 }
