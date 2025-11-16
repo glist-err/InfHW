@@ -56,4 +56,24 @@ public class ClassicIOCacheWithLimit {
             return updateCache(file, absPath, curModifiredTime);
         }
     }
+
+    // вспомогательные методы
+    private boolean isCacheValid(FileCacheEntry CachedEntry, long curModifiredTime) {
+        return CachedEntry.lastModifiredTimeRead == curModifiredTime;
+    }
+
+    private String updateCache(File file, String absolutePath, long curModifiredTime) throws IOException {
+        String content = readFileContent(file);
+
+        // Новая запись в кеше
+        FileCacheEntry newEntry = new FileCacheEntry(content, System.currentTimeMillis(), curModifiredTime);
+        cache.put(absolutePath, newEntry);
+
+        // не превышает ли размер кеша
+        if (cache.size() > maxSize) {
+            evictOldestFile();
+        }
+
+        return content;
+    }
 }
