@@ -98,4 +98,10 @@ public class ClassicIOCacheWithLimit {
     public void invalidateAll() {
         cache.clear();
     }
+
+    public boolean isCached(String filePath) {
+        String file = new File(filePath).getAbsolutePath();
+
+        return cache.containsKey(file);
+    }
 }
