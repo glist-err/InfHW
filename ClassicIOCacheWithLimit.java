@@ -140,22 +140,22 @@ public class ClassicIOCacheWithLimit {
     }
 
     public void printCacheStats() {
-        System.out.println("Cache stats:\n");
+        System.out.println("Cache stats:");
 
-        System.err.println("    Files:          " + cache.size() + "\n");
-        System.err.println("    Max size:       " + maxSize + "\n");
-        System.err.println("    Mem usage:      " + getCacheSizeInMemory() + "\n");
+        System.err.println("    Files:      " + cache.size());
+        System.err.println("    Max size:   " + maxSize);
+        System.err.println("    Mem usage:  " + getCacheSizeInMemory());
 
-        System.err.println("Files:\n");
+        System.err.println("    Files:");
         for (Map.Entry<String, FileCacheEntry> entry : cache.entrySet()) {
             String path = entry.getKey();
             FileCacheEntry data = entry.getValue();
             long sizeInMem = (data.content != null ? data.content.length() * (long)2 : 0);
 
-            System.err.println("    - " + path + "\n");
-            System.err.println("        Size: " + sizeInMem + "\n");
-            System.err.println("        Last read: " + data.lastReadTime + "\n");
-            System.err.println("        Last modifired: " + data.lastModifiredTimeRead + "\n");
+            System.err.println("    - " + path);
+            System.err.println("        Size:           " + sizeInMem);
+            System.err.println("        Last read:      " + data.lastReadTime + " ms");
+            System.err.println("        Last modifired: " + data.lastModifiredTimeRead + " ms");
         }
     }
 }
