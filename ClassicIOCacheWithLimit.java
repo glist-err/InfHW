@@ -88,4 +88,14 @@ public class ClassicIOCacheWithLimit {
 
         return content.toString();
     }
+
+    // методы управления кешем
+    public void invalidate(String filePath) {
+        String file = new File(filePath).getAbsolutePath();
+        cache.remove(file);
+    }
+
+    public void invalidateAll() {
+        cache.clear();
+    }
 }
